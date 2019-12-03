@@ -1,0 +1,28 @@
+[package]
+authors = ["Jack Cushman <jcushman@law.harvard.edu>"]
+edition = "2018"
+name = "holiday-card"
+version = "0.1.0"
+
+[build-dependencies]
+actix-web-static-files = "0.2.6"
+
+[dependencies]
+actix-files = "0.1.7"
+actix-web = "1.0.9"
+actix-web-static-files = "0.2.6"
+env_logger = "0.7.1"
+listenfd = "0.3.3"
+log = "0.4.8"
+rand = "0.7.2"
+serde_yaml = "0.8.11"
+
+[dependencies.serde]
+features = ["derive"]
+version = "1.0"
+
+[features]
+embed-assets = []
+
+[package.metadata.commands]
+serve = "./serve.sh"

@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web:
+    build: .
+    image: holiday-card:0.1
+    tty: true
+    command: bash
+    environment:
+      - RUST_BACKTRACE=1
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
