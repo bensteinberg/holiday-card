@@ -76,6 +76,8 @@ fn get_picture(app_state: web::Data<AppState>) -> impl Responder {
 }
 
 fn main() -> std::io::Result<()> {
+    println!("Holiday Card v. {}", env!("CARGO_PKG_VERSION"));
+
     // get pictures dir
     let pictures_dir = Path::new(&env::current_dir().unwrap())
         .join(get_env("PICTURES_DIR", "pictures"));
