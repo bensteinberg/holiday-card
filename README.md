@@ -19,7 +19,7 @@ Development
 
 In docker:
 
-    `cargo cmd serve`
+`cargo cmd serve`
 
 and visit 127.0.0.1:8000. Frontend and backend should both hot reload. All requests are
 served by vue, with some requests proxied through to actix-web, which is running on

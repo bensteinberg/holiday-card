@@ -19,7 +19,9 @@ export default {
   },
   async mounted() {
     this.getPicture();
-    window.setInterval(this.getPicture, 2000)
+    // read speed=N cookie; default to 5
+    const speed = parseInt(document.cookie.replace(/(?:(?:^|.*;\s*)speed\s*=\s*([^;]*).*$)|^.*$/, "$1")) || 5;
+    window.setInterval(this.getPicture, speed * 1000)
   },
   methods: {
     async getPicture() {

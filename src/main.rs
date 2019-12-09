@@ -4,6 +4,7 @@ use actix_web::{get, middleware, web, App, HttpResponse, HttpServer, Responder};
 use listenfd::ListenFd;
 use rand::seq::SliceRandom;
 use serde::{Serialize, Deserialize};
+use std::collections::HashSet;
 use std::{env, fs, thread, time};
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
@@ -34,17 +35,16 @@ fn get_env(key: &str, default: &str) -> String {
 }
 
 fn picture_collector_thread(app_state: web::Data<AppState>) {
+    let image_suffixes: HashSet<&'static str> = ["jpg", "jpeg", "gif", "png"].iter().cloned().collect();
     let reindex_seconds:u64 = get_env("REINDEX_SECONDS", "60").parse().unwrap_or(60);
     loop {
         // get all images in dir
         let paths = fs::read_dir(&app_state.pictures_dir).unwrap();
         let names = paths.filter_map(|entry| {
-            entry.ok().and_then(|e|
-                e.path().file_name().and_then(|s|
-                    s.to_str()
-                        .filter(|s| s.ends_with(".jpeg"))
-                        .map(|s| String::from(s))
-                )
+            entry.ok()
+                .filter(|e| image_suffixes.contains(e.path().extension().map(|s| s.to_str().unwrap_or("")).unwrap_or("")))
+                .and_then(|e|
+                e.path().file_name().and_then(|s| s.to_str().map(|s| String::from(s)))
             )
         }).collect::<Vec<String>>();
 
@@ -108,6 +108,7 @@ fn main() -> std::io::Result<()> {
             .register_data(app_state.clone())
             .wrap(middleware::Compress::default())
             .wrap(middleware::Logger::default())
+            .wrap(middleware::DefaultHeaders::new().header("Set-Cookie", format!("speed={}", get_env("SPEED", "5"))))
             .service(get_picture)
             .service(actix_files::Files::new("/pictures", &app_state.pictures_dir));
         #[cfg(feature = "embed-assets")]
