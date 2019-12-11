@@ -2,7 +2,7 @@ version: '3'
 services:
   web:
     build: .
-    image: holiday-card:0.1
+    image: holiday-card:0.2
     tty: true
     command: bash
     environment:
