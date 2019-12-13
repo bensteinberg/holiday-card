@@ -2,7 +2,7 @@
 authors = ["Jack Cushman <jcushman@law.harvard.edu>"]
 edition = "2018"
 name = "holiday-card"
-version = "0.2.1"
+version = "0.2.2"
 
 [build-dependencies]
 actix-web-static-files = "0.2.6"
