@@ -3,7 +3,10 @@
     <transition name="fade">
       <div :key="picture.file_name" v-if="picture">
         <img :src="`/pictures/${picture.file_name}`" v-if="picture">
-        <p v-if="picture.caption">{{picture.caption}}</p>
+        <p id="caption">
+          <span v-if="picture.caption" style="font-size: 1.5em">{{picture.caption}}<br></span>
+          <span v-if="picture.source"  style="font-style: italic">— {{picture.source}}</span>
+        </p>
       </div>
     </transition>
   </div>
@@ -47,7 +50,6 @@ export default {
     margin: 0;
   }
   body {
-    padding: 5%;  /* change to 0 if no frame desired */
   }
   #app{
     position: relative;
@@ -62,6 +64,7 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
+    padding: 5%;  /* change to 0 if no frame desired */
   }
   img {
     object-fit: contain;  /* change to "cover" to zoom until image covers whole frame */
@@ -83,5 +86,14 @@ export default {
   }
   .fade-enter{
     opacity: 0;
+  }
+  #caption {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding: .5em;
+    margin: 0;
+    left: 0;
   }
 </style>
